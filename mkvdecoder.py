@@ -51,8 +51,8 @@ def metropolis_step(ref_matrix, enc_matrix, cipher):
     else:
     #Creates a weighted coinlip for conditional acceptance if the new fitness value is lower.
         coinflip=np.random.random(1)
-        weight_for_remaining=1/((fitness_value/fitness_value_try)+1)
-        if coinflip<weight_for_remaining:
+        weight_for_transition=1/((fitness_value/fitness_value_try)+1)
+        if coinflip<weight_for_transition:
             cipher=cipher_try
     return cipher
             
