@@ -11,7 +11,11 @@ def decode_text(text, cipher):
 
 # stefano
 def decode_matrix(encoded_matrix, cipher):
-	pass
+    '''
+    takes a transfer matrix ( np.array(26, 26) ), and a cipher ( np.array(26) ),
+    returns a transfer matrix, transformed using the cypher
+    '''
+    return encoded_matrix[cipher,:][:,cipher]
 
 # yaroslav
 def fitness(ref_matrix, guess_matrix):
