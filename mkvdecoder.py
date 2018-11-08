@@ -1,5 +1,5 @@
 import numpy as np
-
+import string
 
 def random_cipher():
     return np.random.permutation(26)
