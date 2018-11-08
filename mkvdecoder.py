@@ -90,7 +90,7 @@ def decode_matrix(encoded_matrix, cipher):
 # yaroslav
 def fitness(ref_matrix, guess_matrix):
     """Returns the fitness function given the reference matrix and the guess matrix"""
-    return(np.exp(np.trace(np.transpose(guess_matrix) .dot (np.log(ref_matrix)) ) ) )
+    return(np.exp(np.trace(np.transpose(guess_matrix) .dot (np.log(ref_matrix+0.000000000000001) ) ) ))
 
 # gal
 def metropolis_step(ref_matrix, enc_matrix, cipher):
