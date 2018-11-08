@@ -3,11 +3,39 @@ import numpy as np
 
 # zhenya
 def text_to_matrix(text, is_normalised):
-	pass
+    M = np.zeros((26,26))
+    text_lower = text.lower()
+    N = 0
+    for i in range(len(text_lower)-1):
+        if text_lower[i] != ' ' and text_lower[i+1] != ' ':
+            N += 1
+            M[ord(text_lower[i])-97,ord(text_lower[i+1])-97] += 1
+    if is_normalised:
+        return M/N
+    else:
+        return M
 
 # klara
 def decode_text(text, cipher):
-	pass
+def decode_text(text, cipher):
+    '''Decodes given text with substitution cipher 
+        arguments:
+            text: string
+            cipher: 1-dim numpy array (decoding from index of array to ord(letter in alphabet))
+        returns decoded text as string
+        '''
+    new_text = ''
+    alphabet = string.ascii_lowercase
+    for char in text:
+        if ord('A') <= ord(char) <= ord('Z'):
+                i = ord(char) - ord('A') 
+                new_text += alphabet[cipher[i]%26] # uppercase letters are substituted with decoded letter
+        elif ord('a') <= ord(char) <= ord('z'):
+                i = ord(char) - ord('a')
+                new_text += alphabet[cipher[i]%26]  # lowercase letters are substituted with decoded letter
+        else:
+            new_text += char  # non-letter characters are added without modification
+    return new_text
 
 # stefano
 def decode_matrix(encoded_matrix, cipher):
