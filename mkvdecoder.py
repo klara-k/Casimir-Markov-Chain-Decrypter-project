@@ -1,4 +1,5 @@
 import numpy as np
+import string
 
 #zhenya
 def convergence(fitnesses,error):
@@ -17,6 +18,10 @@ def convergence(fitnesses,error):
     else:
         return False
 
+def random_cipher():
+    """ -1 for Stefano from MASTER"""
+    return np.random.permutation(26)
+
 # zhenya
 def text_to_matrix(text, is_normalised):
     """ text_to_matrix calculates the number of times 
@@ -31,8 +36,9 @@ def text_to_matrix(text, is_normalised):
          is_normalised: boolean
            
          ============
-         Output: 26x26 np array """
-    M = np.zeros((26,26))
+         Output: np.array of size (26, 26)
+    """
+    M = np.zeros((26, 26))
     text_lower = text.lower()
     N = 0
     for i in range(len(text_lower)-1):
@@ -51,7 +57,7 @@ def decode_text(text, cipher):
     Parameters
     ----------
     text : string
-    cipher : np.array(n_letters_in_alphabet), permutation  
+    cipher : np.array() of size 26, permutation  
     
     Returns
     -------
