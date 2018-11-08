@@ -32,9 +32,9 @@ def test_fitness():
 
 #zhenya
 def test_text_to_matrix():
-    assert mkvdecoder.text_to_matrix('A AA h r a f',False)[0,0] == 1
+    assert mkvdecoder.text_to_matrix('A AA\n h r a f',False)[0,0] == 1
     assert mkvdecoder.text_to_matrix('A aa h r a f',False)[0,0] == 1
     assert mkvdecoder.text_to_matrix('A AAA h r a f',False)[0,0] == 2
-    assert mkvdecoder.text_to_matrix('A BAA h r a f',False)[0,0] == 1
+    assert mkvdecoder.text_to_matrix('A BAA\n h.: r? a f',False)[0,0] == 1
     assert mkvdecoder.text_to_matrix('A BAA h r a f',False)[1,0] == 1
 
