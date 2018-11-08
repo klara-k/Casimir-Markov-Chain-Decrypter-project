@@ -1,5 +1,21 @@
 import numpy as np
 
+#zhenya
+def convergence(fitnesses,error):
+    """ a condition for the end of the algorythm
+        ===============
+        Variables:
+        fitnesses: np array that contain last N fitnesses
+        error: number-like
+
+        =============
+        Returns:boolean
+      """
+    fitnesses_diff = np.abs(np.diff(fitnesses))
+    if np.mean(fitnesses_diff)<=error:
+        return True
+    else:
+        return False
 
 # zhenya
 def text_to_matrix(text, is_normalised):
