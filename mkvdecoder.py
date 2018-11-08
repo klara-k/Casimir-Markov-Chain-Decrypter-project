@@ -2,15 +2,17 @@ import numpy as np
 import string
 
 #zhenya
-def convergence(fitnesses,error):
-    """ a condition for the end of the algorythm
-        ===============
-        Variables:
-        fitnesses: np array that contain last N fitnesses
+def convergence(fitnesses, error):
+    """ a condition for the end of the algorithm
+        
+        Parameters
+	----------
+	fitnesses: np array that contain last N fitnesses
         error: number-like
 
-        =============
-        Returns:boolean
+        Returns
+	----------
+	boolean: is the algorithm done?
       """
     fitnesses_diff = np.abs(np.diff(fitnesses))
     if np.mean(fitnesses_diff)<=error:
@@ -30,13 +32,14 @@ def text_to_matrix(text, is_normalised):
          of the matrix (first index) corresponds to the first letter in the 
          binary.
          
-         ============
-         Variables: 
-         text: string 
+         Parameters
+         ----------
+	 text: string 
          is_normalised: boolean
-           
-         ============
-         Output: np.array of size (26, 26)
+         
+   	 Returns
+	 ----------
+         np.array of size (26, 26)
     """
     M = np.zeros((26, 26))
     text_lower = text.lower()
@@ -60,7 +63,7 @@ def decode_text(text, cipher):
     cipher : np.array() of size 26, permutation  
     
     Returns
-    -------
+    ----------
     decoded_text : string 
     """
     new_text = ''
@@ -95,15 +98,14 @@ def metropolis_step(ref_matrix, enc_matrix, cipher):
     '''
     Function that generates a new cipher using the metropolis algorithm!
     
-    ----
     Parameters
-    ----
+    ----------
     ref_matrix : 2D array_like
     enc_matrix : 2D array_like
     cipher : 1D array_like
     
     Returns
-    ----
+    ----------
     Returns the newely generated cipher.
     '''
     exchange=np.random.randint(26,size=2) 
