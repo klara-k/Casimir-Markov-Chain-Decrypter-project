@@ -17,13 +17,17 @@ def text_to_matrix(text, is_normalised):
 
 # klara
 def decode_text(text, cipher):
-def decode_text(text, cipher):
-    '''Decodes given text with substitution cipher 
-        arguments:
-            text: string
-            cipher: 1-dim numpy array (decoding from index of array to ord(letter in alphabet))
-        returns decoded text as string
-        '''
+    """Decodes given text with substitution cipher 
+    
+    Parameters
+    ----------
+    text : string
+    cipher : np.array(n_letters_in_alphabet), permutation  
+    
+    Returns
+    -------
+    decoded_text : string 
+    """
     new_text = ''
     alphabet = string.ascii_lowercase
     for char in text:
@@ -54,14 +58,15 @@ def fitness(ref_matrix, guess_matrix):
 def metropolis_step(ref_matrix, enc_matrix, cipher):
     '''
     Function that generates a new cipher using the metropolis algorithm!
+    
     ----
-    Input
+    Parameters
     ----
     ref_matrix : 2D array_like
     enc_matrix : 2D array_like
     cipher : 1D array_like
-    ----
-    Return
+    
+    Returns
     ----
     Returns the newely generated cipher.
     '''
