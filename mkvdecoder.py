@@ -26,10 +26,11 @@ def decode_text(text, cipher):
         '''
     new_text = ''
     alphabet = string.ascii_lowercase
+    Alphabet = string.ascii_uppercase
     for char in text:
         if ord('A') <= ord(char) <= ord('Z'):
                 i = ord(char) - ord('A') 
-                new_text += alphabet[cipher[i]%26] # uppercase letters are substituted with decoded letter
+                new_text += Alphabet[cipher[i]%26] # uppercase letters are substituted with decoded letter
         elif ord('a') <= ord(char) <= ord('z'):
                 i = ord(char) - ord('a')
                 new_text += alphabet[cipher[i]%26]  # lowercase letters are substituted with decoded letter
