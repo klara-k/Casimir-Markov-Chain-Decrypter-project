@@ -1,5 +1,5 @@
 import numpy as np
-
+import string
 
 # zhenya
 def text_to_matrix(text, is_normalised):
