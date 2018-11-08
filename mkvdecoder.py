@@ -3,13 +3,26 @@ import numpy as np
 
 # zhenya
 def text_to_matrix(text, is_normalised):
+    """ text_to_matrix calculates the number of times 
+        (or frequency, depending on whether it is normalised or not)
+         each binary appeares in the text. Stores it in the matrix. The column 
+         of the matrix (first index) corresponds to the first letter in the 
+         binary.
+         
+         ============
+         Variables: 
+         text: string 
+         is_normalised: boolean
+           
+         ============
+         Output: 26x26 np array """
     M = np.zeros((26,26))
     text_lower = text.lower()
     N = 0
     for i in range(len(text_lower)-1):
         if text_lower[i] != ' ' and text_lower[i+1] != ' ':
             N += 1
-            M[ord(text_lower[i])-97,ord(text_lower[i+1])-97] += 1
+            M[ord(text_lower[i])-ord('a'),ord(text_lower[i+1])-ord('a')] += 1
     if is_normalised:
         return M/N
     else:
@@ -30,10 +43,11 @@ def decode_text(text, cipher):
     """
     new_text = ''
     alphabet = string.ascii_lowercase
+    Alphabet = string.ascii_uppercase
     for char in text:
         if ord('A') <= ord(char) <= ord('Z'):
                 i = ord(char) - ord('A') 
-                new_text += alphabet[cipher[i]%26] # uppercase letters are substituted with decoded letter
+                new_text += Alphabet[cipher[i]%26] # uppercase letters are substituted with decoded letter
         elif ord('a') <= ord(char) <= ord('z'):
                 i = ord(char) - ord('a')
                 new_text += alphabet[cipher[i]%26]  # lowercase letters are substituted with decoded letter
@@ -84,8 +98,8 @@ def metropolis_step(ref_matrix, enc_matrix, cipher):
     else:
     #Creates a weighted coinlip for conditional acceptance if the new fitness value is lower.
         coinflip=np.random.random(1)
-        weight_for_remaining=1/((fitness_value/fitness_value_try)+1)
-        if coinflip<weight_for_remaining:
+        weight_for_transition=1/((fitness_value/fitness_value_try)+1)
+        if coinflip<weight_for_transition:
             cipher=cipher_try
     return cipher
             
