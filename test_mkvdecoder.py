@@ -17,17 +17,30 @@ def test_decode_matrix():
 #yaroslav
 
 def test_fitness():
-    refm = np.array([[0,0.2,0],
+    
+    refm = mkvdecoder.ref_matrix_regularize(
+            np.array([[0,0.2,0],
                      [0,0,0.1],
-                     [0.7,0,0]])
+                     [0.7,0,0]]) )
+    refmreg=np.array([[0.1,0.2,0.1],
+                     [0.1,0.1,0.1],
+                     [0.7,0.1,0.1]])
     guessm1 = np.array([[0,0,0],
                      [0,0,1],
                      [1,0,0]])
     guessm2 = np.array([[0,1,0],
                      [0,0,1],
                      [0,0,0]])
-    assert(np.abs(mkvdecoder.fitness(refm,guessm1)-0.07)/0.07<0.01)
-    assert(np.abs(mkvdecoder.fitness(refm,guessm2)-0.02)/0.02<0.01)
+    
+    #checking if regularization procedure went as expected
+    
+    assert((refm==refmreg).all())
+    
+    #checking the fitness computation 
+    #computation procedure gives some numerical errors, so we allow them -- if they're bound by 10^-8 %
+
+    assert(np.abs(mkvdecoder.fitness(refm,guessm1)-0.07)/0.07<0.0000000001)
+    assert(np.abs(mkvdecoder.fitness(refm,guessm2)-0.02)/0.02<0.0000000001)
 
 
 #zhenya

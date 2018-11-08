@@ -90,9 +90,30 @@ def decode_matrix(encoded_matrix, cipher):
     return encoded_matrix[cipher,:][:,cipher]
 
 # yaroslav
+def ref_matrix_regularize(ref_matrix):
+    """Regularizes the reference matrix to allow for an efficient fitness computation
+    -----------------------------------------------
+    
+    Returns a copy of a ref_matrix, with its zero elements replaced by the value of a smallest nonzero element"""
+    
+    #creates a matrix which has 1 on all positions where ref_matrix has exactly 0, and has 0 on all the other positions: 
+    
+    indicator=1-np.sign(ref_matrix)
+    
+    #finds smallest nonzero element in the matrix (option 0 is removed by adding indicator before passing to amin), adds this value to every zero in the matrix, returns the result:
+    
+    return(np.amin(indicator+ref_matrix)*indicator+ref_matrix)
+    
+    
+    
 def fitness(ref_matrix, guess_matrix):
-    """Returns the fitness function given the reference matrix and the guess matrix"""
-    return(np.exp(np.trace(np.transpose(guess_matrix) .dot (np.log(ref_matrix+0.000000000000001) ) ) ))
+    """Returns the value of the fitness function.
+    
+    The input is the reference matrix and the guess matrix. The reference matrix is assumed to be regularized (to contain no zero elements)"""
+    
+    #Convertion from the product to an exponential of a sum is being used; transpose is needed to compute M_ij log(N_ij) and not M_ij log(N_ji)
+    
+    return(np.exp(np.trace(np.transpose(guess_matrix) .dot (np.log(ref_matrix) ) ) ))
 
 # gal
 def metropolis_step(ref_matrix, enc_matrix, cipher):
