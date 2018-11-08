@@ -44,7 +44,9 @@ def text_to_matrix(text, is_normalised):
     """
     M = np.zeros((26, 26))
     text_lower = text.lower()
-    text_no_punctuation = ''.join(ch for ch in text_lower if (ch.isalpha() or ch==' ') )
+    text_no_punctuation = ''.join(ch for ch in text_lower if (
+        ord('a')<=ord(ch)<=ord('z') or ch==' '
+    ) )
     N = 0
     for i in range(len(text_no_punctuation)-1):
         if text_no_punctuation[i] != ' ' and text_no_punctuation[i+1] != ' ':
