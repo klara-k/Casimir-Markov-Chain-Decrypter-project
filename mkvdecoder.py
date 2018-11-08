@@ -23,6 +23,7 @@ def random_cipher():
     return np.random.permutation(26)
 
 # zhenya
+import string
 def text_to_matrix(text, is_normalised):
     """ text_to_matrix calculates the number of times 
         (or frequency, depending on whether it is normalised or not)
@@ -40,16 +41,17 @@ def text_to_matrix(text, is_normalised):
     """
     M = np.zeros((26, 26))
     text_lower = text.lower()
+    exclude = set(string.punctuation)
+    text_no_punctuation = ''.join(ch for ch in text_lower if ch not in exclude)
     N = 0
-    for i in range(len(text_lower)-1):
-        if text_lower[i] != ' ' and text_lower[i+1] != ' ':
+    for i in range(len(text_no_punctuation)-1):
+        if text_no_punctuation[i] != ' ' and text_no_punctuation[i+1] != ' ':
             N += 1
-            M[ord(text_lower[i])-ord('a'),ord(text_lower[i+1])-ord('a')] += 1
+            M[ord(text_no_punctuation[i])-ord('a'),ord(text_no_punctuation[i+1])-ord('a')] += 1
     if is_normalised:
         return M/N
     else:
-        return M
-
+        return M 
 # klara
 def decode_text(text, cipher):
     """Decodes given text with substitution cipher 
