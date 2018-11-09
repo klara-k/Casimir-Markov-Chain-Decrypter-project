@@ -1,4 +1,3 @@
-'''Docstring for the module'''
 import numpy as np
 import string
 
@@ -47,9 +46,9 @@ def text_to_matrix(text, normalize_and_regularize):
 	    ----------
         np.array of size (26, 26)
     """
-    import numpy as np
+   import numpy as np
     #initialise matrix with zeros
-    M = np.zeros((26, 26)) 
+    M = np.zeros((27, 27)) 
     
     #text_good is a converted string that has all the letters in the lower case and no punctuation signs
     text_good = ''.join(ch for ch in text.lower() if (ord('a')<=ord(ch)<=ord('z') or ch==' ')) 
@@ -62,9 +61,16 @@ def text_to_matrix(text, normalize_and_regularize):
         #this checks if we have a binary or just the ending/beginning of a word
         if text_good[i] != ' ' and text_good[i+1] != ' ': 
             number_of_binaries += 1 
-
             #add 1 in the corresponding element of the matrix when we find the binary
             M[ord(text_good[i])-ord('a'),ord(text_good[i+1])-ord('a')] += 1 
+            
+        elif text_good[i] == ' ' and text_good[i+1] != ' ': 
+            number_of_binaries += 1 
+            M[26,ord(text_good[i+1])-ord('a')] += 1 
+            
+        elif text_good[i] != ' ' and text_good[i+1] == ' ': 
+            number_of_binaries += 1 
+            M[ord(text_good[i])-ord('a'),26] += 1 
    
     #here we normalise and regularize matrix if needed
     if normalize_and_regularize: 
