@@ -132,7 +132,8 @@ def ref_matrix_regularize(ref_matrix):
 def fitness(ref_matrix, guess_matrix):
     """Returns the value of the fitness function.
     
-    The input is the reference matrix and the guess matrix. The reference matrix is assumed to be regularized (to contain no zero elements)"""
+    The input is the reference matrix and the guess matrix. 
+    The reference matrix is assumed to be regularized (to contain no zero elements)"""
     
     logf=0.
     
