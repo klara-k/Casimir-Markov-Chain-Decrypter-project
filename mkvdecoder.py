@@ -134,17 +134,18 @@ def fitness(ref_matrix, guess_matrix):
     
     The input is the reference matrix and the guess matrix. The reference matrix is assumed to be regularized (to contain no zero elements)"""
     
-#     f=1
+    f=1
     
-#     for i in range (len(ref_matrix)):
-#         for j in range (len(ref_matrix)):
-#             f=f*(ref_matrix[i,j]**guess_matrix[i,j])
+    for i in range (len(ref_matrix)):
+        for j in range (len(ref_matrix)):
+            if (guess_matrix[i,j]>0.1):
+                f=f*(ref_matrix[i,j]**guess_matrix[i,j])
     
     # Convertion from the product to an exponential of a sum is being used
     # transpose is needed to compute M_ij log(N_ij) and not M_ij log(N_ji)
     
-    return(np.exp(np.trace(np.transpose(guess_matrix) .dot (np.log(ref_matrix) ) ) ))
-#     return(f)
+#     return(np.exp(np.trace(np.transpose(guess_matrix) .dot (np.log(ref_matrix) ) ) ))
+    return(f)
 
 def fitness_ratio(ref_matrix, guess_matrix_old, guess_matrix_new):
     """Returns the ratio of the old and the new fitness functions (old over new).
