@@ -1,3 +1,4 @@
+'''Docstring for the module'''
 import numpy as np
 import string
 
