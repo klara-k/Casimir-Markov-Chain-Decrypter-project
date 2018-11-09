@@ -105,9 +105,7 @@ def ref_matrix_regularize(ref_matrix):
     #finds smallest nonzero element in the matrix (option 0 is removed by adding indicator before passing to amin), adds this value to every zero in the matrix, returns the result:
     
     return(np.amin(indicator+ref_matrix)*indicator+ref_matrix)
-    
-    
-    
+
 def fitness(ref_matrix, guess_matrix):
     """Returns the value of the fitness function.
     
@@ -116,6 +114,16 @@ def fitness(ref_matrix, guess_matrix):
     #Convertion from the product to an exponential of a sum is being used; transpose is needed to compute M_ij log(N_ij) and not M_ij log(N_ji)
     
     return(np.exp(np.trace(np.transpose(guess_matrix) .dot (np.log(ref_matrix) ) ) ))
+
+def fitness_ratio(ref_matrix, guess_matrix_old, guess_matrix_new):
+    """Returns the ratio of the old and the new fitness functions (old over new).
+    
+    The input is the reference matrix and the guess matrices -- old and new. The function returns the ratio of corresponding fitness functions. The reference matrix is assumed to be regularized (to contain no zero elements)"""
+    
+    #exponential in the fitness function is linear in guess_matrix, so it's enough to take the difference
+    
+    return(fitness(ref_matrix,guess_matrix_old-guess_matrix_new))
+
 
 # gal
 def metropolis_step(ref_matrix, enc_matrix, cipher):
