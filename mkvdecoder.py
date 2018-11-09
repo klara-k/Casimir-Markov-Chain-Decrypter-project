@@ -1,7 +1,7 @@
 import numpy as np
 import string
 
-#zhenya
+#Zhenya
 def convergence(fitnesses, error):
     """ a simple condition which tests when it is reasonable
         to  end of the algorithm. This ondition just takes latest several 
@@ -24,42 +24,53 @@ def convergence(fitnesses, error):
     else:
         return False
 
+#Stefano
 def random_cipher():
-    """ -1 for Stefano from MASTER"""
+    """ returns a random permutation of array with numbers 0-25"""
     return np.random.permutation(26)
 
-# zhenya
-import string
-def text_to_matrix(text, is_normalised):
+#Zhenya
+def text_to_matrix(text, normalize_and_regularize):
     """ text_to_matrix calculates the number of times 
         (or frequency, depending on whether it is normalised or not)
-         each binary appeares in the text. Stores it in the matrix. The column 
-         of the matrix (first index) corresponds to the first letter in the 
-         binary.
+        each binary appeares in the text. Stores it in the matrix. The column 
+        of the matrix (first index) corresponds to the first letter in the 
+        binary.
          
-         Parameters
-         ----------
-	 text: string 
-         is_normalised: boolean
+        Parameters
+        ----------
+	    text: string 
+        is_normalised: boolean
          
-   	 Returns
-	 ----------
-         np.array of size (26, 26)
+   	    Returns
+	    ----------
+        np.array of size (26, 26)
     """
-    M = np.zeros((26, 26))
-    text_lower = text.lower()
-    text_no_punctuation = ''.join(ch for ch in text_lower if (
-        ord('a')<=ord(ch)<=ord('z') or ch==' '
-    ) )
-    N = 0
-    for i in range(len(text_no_punctuation)-1):
-        if text_no_punctuation[i] != ' ' and text_no_punctuation[i+1] != ' ':
-            N += 1
-            M[ord(text_no_punctuation[i])-ord('a'),ord(text_no_punctuation[i+1])-ord('a')] += 1
-    if is_normalised:
-        return M/N
+    import numpy as np
+    #initialise matrix with zeros
+    M = np.zeros((26, 26)) 
+    
+    #text_good is a converted string that has all the letters in the lower case and no punctuation signs
+    text_good = ''.join(ch for ch in text.lower() if (ord('a')<=ord(ch)<=ord('z') or ch==' ')) 
+    
+    #this variable counts how many binaries there are in the text
+    number_of_binaries = 0 
+        
+    #we go along the text and count binaries
+    for i in range(len(text_good)-1): 
+        #this checks if we have a binary or just the ending/beginning of a word
+        if text_good[i] != ' ' and text_good[i+1] != ' ': 
+            number_of_binaries += 1 
+
+            #add 1 in the corresponding element of the matrix when we find the binary
+            M[ord(text_good[i])-ord('a'),ord(text_good[i+1])-ord('a')] += 1 
+   
+    #here we normalise and regularize matrix if needed
+    if normalize_and_regularize: 
+        return ref_matrix_regularize(M/number_of_binaries)
     else:
         return M 
+    
 # klara
 def decode_text(text, cipher):
     """Decodes given text with substitution cipher 
