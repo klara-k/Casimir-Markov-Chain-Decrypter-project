@@ -3,19 +3,23 @@ import string
 
 #zhenya
 def convergence(fitnesses, error):
-    """ a condition for the end of the algorithm
+    """ a simple condition which tests when it is reasonable
+        to  end of the algorithm. This ondition just takes latest several 
+        fitnesses and calculates the differences between them. If the
+        average difference is smaller than the error, we suppose
+        that the algorythm convereged.
         
         Parameters
-	----------
-	fitnesses: np array that contain last N fitnesses
+	    ----------
+	    fitnesses: np array that contain last N fitnesses
         error: number-like
 
         Returns
-	----------
-	boolean: is the algorithm done?
-      """
-    fitnesses_diff = np.abs(np.diff(fitnesses))
-    if np.mean(fitnesses_diff)<=error:
+	    ----------
+	    boolean: is the algorithm done?
+    """
+    fitnesses_diff = np.abs(np.diff(fitnesses)) #array of absolute differences between fitnesses
+    if np.mean(fitnesses_diff)<=error:  #condition of convergence
         return True
     else:
         return False
