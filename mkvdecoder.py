@@ -47,19 +47,27 @@ def text_to_matrix(text, is_normalised):
         np.array of size (26, 26)
     """
     import numpy as np
-    M = np.zeros((26, 26)) #initialise matrix with zeros
+    #initialise matrix with zeros
+    M = np.zeros((26, 26)) 
     
     #text_good is a converted string that has all the letters in the lower case and no punctuation signs
     text_good = ''.join(ch for ch in text.lower() if (ord('a')<=ord(ch)<=ord('z') or ch==' ')) 
     
-    number_of_binaries = 0 #this variable counts how many binaries there are in the text
-    
-    for i in range(len(text_good)-1): #we go along the text and count binaries
-        if text_good[i] != ' ' and text_good[i+1] != ' ': #this checks if we have a binary or just the ending/beginning of a word
+    #this variable counts how many binaries there are in the text
+    number_of_binaries = 0 
+
+    #we go along the text and count binaries
+    for i in range(len(text_good)-1): 
+
+        #this checks if we have a binary or just the ending/beginning of a word
+        if text_good[i] != ' ' and text_good[i+1] != ' ': 
             number_of_binaries += 1 
-            M[ord(text_good[i])-ord('a'),ord(text_good[i+1])-ord('a')] += 1 #add 1 in the corresponding element of the matrix when we find the binary
+
+            #add 1 in the corresponding element of the matrix when we find the binary
+            M[ord(text_good[i])-ord('a'),ord(text_good[i+1])-ord('a')] += 1 
     
-    if is_normalised:  #here we normalise matrix if needed
+    #here we normalise matrix if needed
+    if is_normalised:  
         return M/number_of_binaries
     else:
         return M 
