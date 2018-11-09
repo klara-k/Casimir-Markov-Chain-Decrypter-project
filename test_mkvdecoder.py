@@ -22,15 +22,22 @@ def test_fitness():
             np.array([[0,0.2,0],
                      [0,0,0.1],
                      [0.7,0,0]]) )
-    refmreg=np.array([[0.1,0.2,0.1],
-                     [0.1,0.1,0.1],
-                     [0.7,0.1,0.1]])
+#     refmreg=np.array([[0.1,0.2,0.1],
+#                      [0.1,0.1,0.1],
+#                      [0.7,0.1,0.1]])
+    eps=0.0000000000000000001
+    refmreg=np.array([[eps,0.2,eps],
+                     [eps,eps,0.1],
+                     [0.7,eps,eps]])    
     guessm1 = np.array([[0,0,0],
                      [0,0,1],
                      [1,0,0]])
     guessm2 = np.array([[0,1,0],
                      [0,0,1],
                      [0,0,0]])
+    guessm3 = np.array([[2,0,0],
+                     [0,0,1],
+                     [1,0,0]])
     
     #checking if regularization procedure went as expected
     
