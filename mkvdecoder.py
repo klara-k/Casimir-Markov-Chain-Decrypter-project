@@ -248,3 +248,53 @@ def metropolis_step(ref_matrix, enc_matrix, cipher):
         return cipher_try
     else:
         return cipher
+
+
+# gal
+def summetropolis_step(ref_matrix, enc_matrix, cipher):
+    '''
+    Function that generates a new cipher using the metropolis algorithm!
+    
+    Parameters
+    ----------
+    ref_matrix : 2D array_like
+    enc_matrix : 2D array_like
+    cipher : 1D array_like
+    
+    Returns
+    ----------
+    Returns the newely generated cipher.
+    '''
+    exchange=np.random.randint(26,size=2) 
+    cipher_try=cipher.copy()
+    #Exchanges two elements of the cipher to create a new cipher
+    cipher_try[exchange[0]]=cipher[exchange[1]] 
+    cipher_try[exchange[1]]=cipher[exchange[0]]
+    # old code:
+    '''
+    fitness_value=fitness(ref_matrix, decode_matrix(enc_matrix,cipher))
+    fitness_value_try=fitness(ref_matrix, decode_matrix(enc_matrix,cipher_try))
+    #Checks if the new fitness value is bigger.
+    if fitness_value_try>fitness_value:
+        cipher=cipher_try
+    else:
+    #Creates a weighted coinlip for conditional acceptance if the new fitness value is lower.
+        coinflip=np.random.random(1)
+        weight_for_transition=1/((fitness_value/fitness_value_try)+1)
+        if coinflip<weight_for_transition:
+            cipher=cipher_try
+    '''
+    # Calculates the fitness ratio between the two ciphers (old/new)
+    fitness_ratio_val = sumfitness_ratio(ref_matrix, 
+                                      decode_matrix(enc_matrix,cipher),
+                                      decode_matrix(enc_matrix,cipher_try))
+    # checks if the new cipher has higher fitness than the old, in which case the new cipher is returned
+    if fitness_ratio_val < 1:
+        return cipher_try
+    # Creates a coinflip weighted by the fitness ratio, to decide whether the old cipher is kept or the new one is returned
+    coinflip=np.random.random(1)
+    weight_for_transition=1/(fitness_ratio_val+1)
+    if coinflip<weight_for_transition:
+        return cipher_try
+    else:
+        return cipher    
