@@ -41,6 +41,10 @@ def test_fitness():
 
     assert(np.abs(mkvdecoder.fitness(refm,guessm1)-0.07)/0.07<0.0000000001)
     assert(np.abs(mkvdecoder.fitness(refm,guessm2)-0.02)/0.02<0.0000000001)
+    
+    #checking the fitness ratio computation
+
+    assert(np.abs(mkvdecoder.fitness(refm,guessm1)/mkvdecoder.fitness(refm,guessm2)-3.5)<0.00000001)
 
 
 #zhenya
