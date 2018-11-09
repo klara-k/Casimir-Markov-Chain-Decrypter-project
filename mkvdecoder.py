@@ -30,7 +30,7 @@ def random_cipher():
     return np.random.permutation(26)
 
 #Zhenya
-def text_to_matrix(text, is_normalised):
+def text_to_matrix(text, normalize_and_regularize):
     """ text_to_matrix calculates the number of times 
         (or frequency, depending on whether it is normalised or not)
         each binary appeares in the text. Stores it in the matrix. The column 
@@ -54,15 +54,18 @@ def text_to_matrix(text, is_normalised):
     
     number_of_binaries = 0 #this variable counts how many binaries there are in the text
     
-    for i in range(len(text_good)-1): #we go along the text and count binaries
-        if text_good[i] != ' ' and text_good[i+1] != ' ': #this checks if we have a binary or just the ending/beginning of a word
+    #we go along the text and count binaries
+    for i in range(len(text_good)-1): 
+        #this checks if we have a binary or just the ending/beginning of a word
+        if text_good[i] != ' ' and text_good[i+1] != ' ': 
             number_of_binaries += 1 
             M[ord(text_good[i])-ord('a'),ord(text_good[i+1])-ord('a')] += 1 #add 1 in the corresponding element of the matrix when we find the binary
     
-    if is_normalised:  #here we normalise matrix if needed
-        return M/number_of_binaries
+    if normalize_and_regularize:  #here we normalise matrix if needed
+        return ref_matrix_regularize(M/number_of_binaries)
     else:
         return M 
+    
 # klara
 def decode_text(text, cipher):
     """Decodes given text with substitution cipher 
