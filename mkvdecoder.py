@@ -147,6 +147,24 @@ def fitness(ref_matrix, guess_matrix):
 #     return(np.exp(np.trace(np.transpose(guess_matrix) .dot (np.log(ref_matrix) ) ) ))
     return(np.exp(logf))
 
+def sumfitness(ref_matrix, guess_matrix):
+    """Returns the value of the fitness function.
+    
+    The input is the reference matrix and the guess matrix. 
+    The reference matrix is assumed to be regularized (to contain no zero elements)"""
+    
+    f=0
+    
+    for i in range (len(ref_matrix)):
+        for j in range (len(ref_matrix)):
+            f=f+ref_matrix[i,j]*int(guess_matrix[i,j])
+    
+    # Convertion from the product to an exponential of a sum is being used
+    # transpose is needed to compute M_ij log(N_ij) and not M_ij log(N_ji)
+    
+#     return(np.exp(np.trace(np.transpose(guess_matrix) .dot (np.log(ref_matrix) ) ) ))
+    return(np.exp(logf))
+
 def logfitness(ref_matrix, guess_matrix):
     """Returns the value of the fitness function.
     
@@ -173,6 +191,14 @@ def fitness_ratio(ref_matrix, guess_matrix_old, guess_matrix_new):
     
     return(fitness(ref_matrix,guess_matrix_old-guess_matrix_new))
 
+def sumfitness_ratio(ref_matrix, guess_matrix_old, guess_matrix_new):
+    """Returns the ratio of the old and the new fitness functions (old over new).
+    
+    The input is the reference matrix and the guess matrices -- old and new. The function returns the ratio of corresponding fitness functions. The reference matrix is assumed to be regularized (to contain no zero elements)"""
+    
+    #exponential in the fitness function is linear in guess_matrix, so it's enough to take the difference
+    
+    return(sumfitness(ref_matrix,guess_matrix_old)/sumfitness(ref_matrix,guess_matrix_new))
 
 # gal
 def metropolis_step(ref_matrix, enc_matrix, cipher):
