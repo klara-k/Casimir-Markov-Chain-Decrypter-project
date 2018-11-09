@@ -146,6 +146,7 @@ def fitness(ref_matrix, guess_matrix):
     return(np.exp(np.trace(np.transpose(guess_matrix) .dot (np.log(ref_matrix) ) ) ))
 #     return(f)
 
+
 def fitness_ratio(ref_matrix, guess_matrix_old, guess_matrix_new):
     """Returns the ratio of the old and the new fitness functions (old over new).
     
