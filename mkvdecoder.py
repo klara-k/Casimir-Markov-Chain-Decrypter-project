@@ -123,7 +123,7 @@ def ref_matrix_regularize(ref_matrix):
     #creates a matrix which has 1 on all positions where ref_matrix has exactly 0, and has 0 on all the other positions: 
     
     indicator=1-np.sign(ref_matrix)
-    eps=0.0000000000000000001
+    eps=0.00000001
     #finds smallest nonzero element in the matrix (option 0 is removed by adding indicator before passing to amin), adds this value to every zero in the matrix, returns the result:
     
 #     return(np.amin(indicator+ref_matrix)*indicator+ref_matrix)
