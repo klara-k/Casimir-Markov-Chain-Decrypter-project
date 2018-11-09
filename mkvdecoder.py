@@ -44,9 +44,8 @@ def text_to_matrix(text, normalize_and_regularize):
          
    	    Returns
 	    ----------
-        np.array of size (26, 26)
+        np.array of size (27, 27)
     """
-   import numpy as np
     #initialise matrix with zeros
     M = np.zeros((27, 27)) 
     
@@ -63,11 +62,11 @@ def text_to_matrix(text, normalize_and_regularize):
             number_of_binaries += 1 
             #add 1 in the corresponding element of the matrix when we find the binary
             M[ord(text_good[i])-ord('a'),ord(text_good[i+1])-ord('a')] += 1 
-            
+        # checks if this is the beginning of a word eg. ' c'    
         elif text_good[i] == ' ' and text_good[i+1] != ' ': 
             number_of_binaries += 1 
             M[26,ord(text_good[i+1])-ord('a')] += 1 
-            
+        # checks if this is the end of a word eg. 'c '      
         elif text_good[i] != ' ' and text_good[i+1] == ' ': 
             number_of_binaries += 1 
             M[ord(text_good[i])-ord('a'),26] += 1 
@@ -108,10 +107,11 @@ def decode_text(text, cipher):
 # stefano
 def decode_matrix(encoded_matrix, cipher):
     '''
-    takes a transfer matrix ( np.array(26, 26) ), and a cipher ( np.array(26) ),
+    takes a transfer matrix ( np.array(27, 27) ), and a cipher ( np.array(26) ),
     returns a transfer matrix, transformed using the cypher
     '''
-    return encoded_matrix[cipher,:][:,cipher]
+    cipher_with_space=np.append(cipher,[26])
+    return encoded_matrix[cipher_with_space,:][:,cipher_with_space]
 
 # yaroslav
 def ref_matrix_regularize(ref_matrix):
@@ -139,12 +139,11 @@ def fitness(ref_matrix, guess_matrix):
     for i in range (len(ref_matrix)):
         for j in range (len(ref_matrix)):
             f=f*(ref_matrix[i,j]**guess_matrix[i,j])
-            
     
+    # Convertion from the product to an exponential of a sum is being used
+    # transpose is needed to compute M_ij log(N_ij) and not M_ij log(N_ji)
     
-    #Convertion from the product to an exponential of a sum is being used; transpose is needed to compute M_ij log(N_ij) and not M_ij log(N_ji)
-    
-#     return(np.exp(np.trace(np.transpose(guess_matrix) .dot (np.log(ref_matrix) ) ) ))
+    # return(np.exp(np.trace(np.transpose(guess_matrix) .dot (np.log(ref_matrix) ) ) ))
     return(f)
 
 def fitness_ratio(ref_matrix, guess_matrix_old, guess_matrix_new):
