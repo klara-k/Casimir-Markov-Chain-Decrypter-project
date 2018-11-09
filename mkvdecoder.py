@@ -73,7 +73,7 @@ def text_to_matrix(text, normalize_and_regularize):
    
     #here we normalise and regularize matrix if needed
     if normalize_and_regularize: 
-        return ref_matrix_regularize(M/np.amax(M))
+        return ref_matrix_regularize((M/np.amax(M))/number_of_binaries)
     else:
         return M 
     
