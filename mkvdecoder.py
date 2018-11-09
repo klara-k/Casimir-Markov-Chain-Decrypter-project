@@ -73,7 +73,7 @@ def text_to_matrix(text, normalize_and_regularize):
    
     #here we normalise and regularize matrix if needed
     if normalize_and_regularize: 
-        return ref_matrix_regularize(M/number_of_binaries)
+        return ref_matrix_regularize( (M/number_of_binaries)/np.amax((M/number_of_binaries)))
     else:
         return M 
     
@@ -147,6 +147,24 @@ def fitness(ref_matrix, guess_matrix):
 #     return(np.exp(np.trace(np.transpose(guess_matrix) .dot (np.log(ref_matrix) ) ) ))
     return(np.exp(logf))
 
+def sumfitness(ref_matrix, guess_matrix):
+    """Returns the value of the fitness function.
+    
+    The input is the reference matrix and the guess matrix. 
+    The reference matrix is assumed to be regularized (to contain no zero elements)"""
+    
+    f=0
+    
+    for i in range (len(ref_matrix)):
+        for j in range (len(ref_matrix)):
+            f=f+ref_matrix[i,j]*int(guess_matrix[i,j])
+    
+    # Convertion from the product to an exponential of a sum is being used
+    # transpose is needed to compute M_ij log(N_ij) and not M_ij log(N_ji)
+    
+#     return(np.exp(np.trace(np.transpose(guess_matrix) .dot (np.log(ref_matrix) ) ) ))
+    return(np.exp(logf))
+
 def logfitness(ref_matrix, guess_matrix):
     """Returns the value of the fitness function.
     
@@ -173,6 +191,14 @@ def fitness_ratio(ref_matrix, guess_matrix_old, guess_matrix_new):
     
     return(fitness(ref_matrix,guess_matrix_old-guess_matrix_new))
 
+def sumfitness_ratio(ref_matrix, guess_matrix_old, guess_matrix_new):
+    """Returns the ratio of the old and the new fitness functions (old over new).
+    
+    The input is the reference matrix and the guess matrices -- old and new. The function returns the ratio of corresponding fitness functions. The reference matrix is assumed to be regularized (to contain no zero elements)"""
+    
+    #exponential in the fitness function is linear in guess_matrix, so it's enough to take the difference
+    
+    return(sumfitness(ref_matrix,guess_matrix_old)/sumfitness(ref_matrix,guess_matrix_new))
 
 # gal
 def metropolis_step(ref_matrix, enc_matrix, cipher):
@@ -222,3 +248,53 @@ def metropolis_step(ref_matrix, enc_matrix, cipher):
         return cipher_try
     else:
         return cipher
+
+
+# gal
+def summetropolis_step(ref_matrix, enc_matrix, cipher):
+    '''
+    Function that generates a new cipher using the metropolis algorithm!
+    
+    Parameters
+    ----------
+    ref_matrix : 2D array_like
+    enc_matrix : 2D array_like
+    cipher : 1D array_like
+    
+    Returns
+    ----------
+    Returns the newely generated cipher.
+    '''
+    exchange=np.random.randint(26,size=2) 
+    cipher_try=cipher.copy()
+    #Exchanges two elements of the cipher to create a new cipher
+    cipher_try[exchange[0]]=cipher[exchange[1]] 
+    cipher_try[exchange[1]]=cipher[exchange[0]]
+    # old code:
+    '''
+    fitness_value=fitness(ref_matrix, decode_matrix(enc_matrix,cipher))
+    fitness_value_try=fitness(ref_matrix, decode_matrix(enc_matrix,cipher_try))
+    #Checks if the new fitness value is bigger.
+    if fitness_value_try>fitness_value:
+        cipher=cipher_try
+    else:
+    #Creates a weighted coinlip for conditional acceptance if the new fitness value is lower.
+        coinflip=np.random.random(1)
+        weight_for_transition=1/((fitness_value/fitness_value_try)+1)
+        if coinflip<weight_for_transition:
+            cipher=cipher_try
+    '''
+    # Calculates the fitness ratio between the two ciphers (old/new)
+    fitness_ratio_val = sumfitness_ratio(ref_matrix, 
+                                      decode_matrix(enc_matrix,cipher),
+                                      decode_matrix(enc_matrix,cipher_try))
+    # checks if the new cipher has higher fitness than the old, in which case the new cipher is returned
+    if fitness_ratio_val < 1:
+        return cipher_try
+    # Creates a coinflip weighted by the fitness ratio, to decide whether the old cipher is kept or the new one is returned
+    coinflip=np.random.random(1)
+    weight_for_transition=1/(fitness_ratio_val+1)
+    if coinflip<weight_for_transition:
+        return cipher_try
+    else:
+        return cipher    
